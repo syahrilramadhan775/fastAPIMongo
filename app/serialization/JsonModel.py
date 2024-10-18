@@ -14,7 +14,8 @@ def serializeJsonModels(data) -> list:
 def serializeJsonModelCreate(data) -> dict:
     return {
         "title": str(data['title']),
-        "content_json": json.dumps(data['content_json'])
+        "content_json": json.dumps(data['content_json']),
+        "description_json": json.dumps(data['description_json']),
     }
 
 def serializeJsonModelUpdate(data) -> dict:
