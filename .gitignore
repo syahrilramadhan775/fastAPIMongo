@@ -3,6 +3,7 @@
 /app/databases/__pycache__
 /app/models/__pycache__
 /app/routes/__pycache__
+/app/routes/v1/__pycache__
 /app/schemas/__pycache__
 /app/serialization/__pycache__
 .env
