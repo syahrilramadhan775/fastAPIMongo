@@ -6,3 +6,4 @@
 /app/schemas/__pycache__
 /app/serialization/__pycache__
 .env
+/.vscode
