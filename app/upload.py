@@ -32,7 +32,7 @@ if client.bucket_exists(bucket_name=bucketName):
                 "JPG"   : client.presigned_get_object(bucketName, "frtsh.jpeg", expires=timedelta(hours=2))
             }
 
-        @app.put('/test/{id}')
+        @app.put('/test')
         def tests(file: Annotated[UploadFile, File(...)]):
             open('assets/'+file.filename, 'wb').write(file.file.read())
 
