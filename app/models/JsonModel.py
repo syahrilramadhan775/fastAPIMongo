@@ -8,5 +8,5 @@ class JsonModel(BaseModel):
     content_json: str
     description_json: str
 
-    async def __collection__():
+    async def _collection_json_model():
         return await __collections__(value="jsonModel_100")

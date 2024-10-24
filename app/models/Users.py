@@ -7,6 +7,6 @@ class Users(BaseModel):
     username: str
     name: str
     
-    async def __collection__():
+    async def _collection_users():
         return await __collections__(value="users")
     

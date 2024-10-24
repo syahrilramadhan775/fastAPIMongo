@@ -6,35 +6,35 @@ from serialization.user import ( serializeUsers, serializeUser )
 
 class UserController():
     async def getUsers():
-        collection= await Users.__collection__()
+        collection= await Users._collection_users()
         data = list(collection.find({}))
         return { "status": status.HTTP_200_OK, "data": serializeUsers(data) }
     
     async def getUserDetail(id: None):
-        collection= await Users.__collection__()
+        collection= await Users._collection_users()
         data = collection.find_one({"_id": ObjectId(id)})
         return { "status": status.HTTP_200_OK, "data": serializeUser(data) }
 
     async def createUser(body: userCreate):
-        collection= await Users.__collection__()
+        collection= await Users._collection_users()
         user= collection.insert_one({'username': body.username, 'name': body.name})
         data= collection.find_one({"_id": user.inserted_id})
         return { "status": status.HTTP_201_CREATED, "data": serializeUser(data) }
     
     async def updateUser(id: None, body: userUpdate):
-        collection= await Users.__collection__()
+        collection= await Users._collection_users()
         collection.update_one({"_id": ObjectId(id)}, {"$set": { 'username': body.username, 'name': body.name }})
         data= collection.find_one({"_id": ObjectId(id)})
         return { "status": status.HTTP_200_OK, "data": serializeUser(data) }
     
     async def patchUser(id: None, body: userPatch):
-        collection= await Users.__collection__()
+        collection= await Users._collection_users()
         collection.update_one({"_id": ObjectId(id)}, {"$set": { 'name': body.name }})
         data= collection.find_one({"_id": ObjectId(id)})
         return { "status": status.HTTP_200_OK, "data": serializeUser(data) }
     
     async def deleteUser(id: None):
-        collection= await Users.__collection__()
+        collection= await Users._collection_users()
         data= collection.delete_one({"_id": ObjectId(id)})
         return {
             "status": status.HTTP_200_OK, 
