@@ -1,8 +1,8 @@
-from fastapi import FastAPI
 from databases.Collection import lifespan
-from routes.v1.api import endpoints
-import uvicorn
+from routes.api import endpoints
 from dotenv import dotenv_values
+from fastapi import FastAPI
+import uvicorn
 
 env = dotenv_values("../.env")   
 app = FastAPI(lifespan=lifespan)
