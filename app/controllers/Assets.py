@@ -4,23 +4,11 @@ from models.Assets import AssetsModel
 from serialization.assets import (serialize_asset_model, serialize_assets_model)
 from schemas.assets import AssetBase
 
-class Settings:
-    def __init__(self, collection) -> None:
-        self.collection = collection
-
-    async def _init(self):
-        self.collection = await AssetsModel._collection_assets_model()
-    async def collections():
-        return await AssetsModel._collection_assets_model()
-
 class AssetModelController():
-    
     async def index():
-        # return {"test": AssetModelController._asset_collection}
-        # collection = await AssetsModel._collection_assets_model()
-        # print(await test)
-        # data = list(collection.find({}))
-        # return {"status": status.HTTP_200_OK, "data": serialize_assets_model(data=data)}
+        collection = await AssetsModel._collection_assets_model()
+        data = list(collection.find({}))
+        return {"status": status.HTTP_200_OK, "data": serialize_assets_model(data=data)}
 
     async def create(request: AssetBase):
         collection = await AssetsModel._collection_assets_model()
