@@ -8,9 +8,9 @@ from config.fileSystem import FileSystems
 env = dotenv_values('../.env')
 
 # Initialize MinIO client
-client = FileSystems(env['AWS_CONNECTION'])._connection_()
-bucketName = FileSystems(env['AWS_CONNECTION'])._get_bucket()
-filePath = FileSystems(env['AWS_CONNECTION'])._get_local_path()
+client = FileSystems('s3')._connection_()
+bucketName = FileSystems('s3')._get_bucket()
+filePath = FileSystems('s3')._get_local_path()
 type = "image/jpg"
 
 if client.bucket_exists(bucket_name=bucketName):    
