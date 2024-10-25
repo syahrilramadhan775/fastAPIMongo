@@ -1,18 +1,16 @@
-from minio import Minio
 from fastapi import FastAPI, status, UploadFile, File
 from datetime import timedelta
 from fastapi.responses import JSONResponse
 from typing import Annotated
+from dotenv import dotenv_values
+from config.fileSystem import FileSystems
 
+env = dotenv_values('../.env')
 
 # Initialize MinIO client
-client = Minio('localhost:9000',
-            access_key='fastapibucket',
-            secret_key='MKgk6b2TbsdQCVnYCMumUeZR1T4VPBu3oyyz8BBZ',
-            secure=False)
-
-bucketName = "fastapi"
-filePath = "assets"
+client = FileSystems(env['AWS_CONNECTION'])._connection_()
+bucketName = FileSystems(env['AWS_CONNECTION'])._get_bucket()
+filePath = FileSystems(env['AWS_CONNECTION'])._get_local_path()
 type = "image/jpg"
 
 if client.bucket_exists(bucket_name=bucketName):    
