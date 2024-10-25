@@ -6,5 +6,6 @@
 /app/routes/v1/__pycache__
 /app/schemas/__pycache__
 /app/serialization/__pycache__
+/app/config/__pycache__
 .env
 /.vscode
