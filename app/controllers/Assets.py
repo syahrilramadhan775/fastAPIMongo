@@ -1,8 +1,8 @@
-from fastapi import Request, status, Response
+from fastapi import status
 from bson import ObjectId
 from models.Assets import AssetsModel
 from serialization.assets import (serialize_asset_model, serialize_assets_model)
-from schemas.assets import AssetBase
+from schemas.assets import (AssetBase, AssetPath)
 
 class AssetModelController():
     async def index():
@@ -21,11 +21,23 @@ class AssetModelController():
         data = collection.find_one({'_id': ObjectId(id)})
         return {"status": status.HTTP_200_OK, "data": serialize_asset_model(data=data)}
     
-    async def update(id, request: Request):
-        return {"message": "ini update"}
+    async def update(id, request: AssetBase):
+        collection = await AssetsModel._collection_assets_model()
+        collection.update_one({'_id': ObjectId(id)}, {"$set": {"title": request.title, "asset_url": request.asset_url}})
+        data = collection.find_one({"_id": ObjectId(id)})
+        return {"status": status.HTTP_200_OK, "data": serialize_asset_model(data=data)}
     
-    async def patch(id, request: Request):
-        return {"message": "ini patch"}
+    async def patch(id, request: AssetPath):
+        collection = await AssetsModel._collection_assets_model()
+        collection.update_one({"_id": ObjectId(id)}, {"$set": {"asset_url": request.asset_url}})
+        data = collection.find_one({"_id": ObjectId(id)})
+        return {"status": status.HTTP_200_OK, "data": serialize_asset_model(data=data)}
     
     async def delete(id):
-        return {"message": "ini delete"}
+        collection = await AssetsModel._collection_assets_model()
+        data = collection.delete_one({"_id": ObjectId(id)})
+        return {
+            "status": status.HTTP_200_OK, 
+            "message":"Data success deleted",
+            "deleted_count": data.deleted_count,
+        }

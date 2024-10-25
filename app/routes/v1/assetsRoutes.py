@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 from controllers.Assets import AssetModelController
-from schemas.assets import AssetBase
+from schemas.assets import (AssetBase, AssetPath)
 
 assets_routes=APIRouter(tags=['Assets Data'])
 
@@ -17,11 +17,11 @@ async def asset_create(request: AssetBase):
     return await AssetModelController.create(request)
 
 @assets_routes.put('/asset/{id}')
-async def asset_update(id, request: Request):
+async def asset_update(id, request: AssetBase):
     return await AssetModelController.update(id=id, request=request)
 
 @assets_routes.patch('/asset/{id}/path')
-async def asset_patch(id, request: Request):
+async def asset_patch(id, request: AssetPath):
     return await AssetModelController.patch(id=id, request=request)
 
 @assets_routes.delete('/asset/{id}/delete')
