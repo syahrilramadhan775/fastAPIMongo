@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
 from controllers.Assets import AssetModelController
 from schemas.assets import (AssetBase, AssetPath)
 
@@ -15,6 +15,10 @@ async def asset(id):
 @assets_routes.post('/asset')
 async def asset_create(request: AssetBase):
     return await AssetModelController.create(request)
+
+@assets_routes.post('/asset-many')
+async def asset_create_many(request = Body(...)):
+    return await AssetModelController.create_many(request)
 
 @assets_routes.put('/asset/{id}')
 async def asset_update(id, request: AssetBase):
