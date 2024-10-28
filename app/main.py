@@ -3,7 +3,8 @@ from dotenv import dotenv_values
 from fastapi import FastAPI
 import uvicorn
 
-env = dotenv_values("../.env")   
+env = dotenv_values("../.env")
+
 app = FastAPI()
 app.include_router(endpoints, prefix='/api/v1')
 
