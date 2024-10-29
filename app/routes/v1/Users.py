@@ -1,34 +1,31 @@
-from fastapi import APIRouter, status, Depends, Query
-from models.Users import Users
-from sqlmodel import Session, select
-from typing import Annotated
-from databases.DatabaseSQL import get_session
+from fastapi import APIRouter
+from models.Model import modelSessions
+from schemas.Users import UserBase, UserPatch
+from controllers.User import UserController
 
-SessionDep = Annotated[Session, Depends(get_session)]
+SessionDep = modelSessions
 users= APIRouter(tags=['Users'])
 
 @users.get('/user-management/users')
-def user_managements(session: SessionDep, offset: int = 0, limit: Annotated[int, Query(le=100)] = 100) -> list[Users]:
-    users = session.exec(select(Users).offset(offset).limit(limit)).all()
-    return users
+def user_managements(session: SessionDep):
+    return UserController.index(session)
 
 @users.get('/user-management/user/{id}')
-def user_management(session: SessionDep):
-    # return {"status": status.HTTP_200_OK, "message": "Get User Data Object"}
-    users = session.exec(select(Users).where(id==1)).one()
+def user_management(session: SessionDep, id):
+    return UserController.show(session, id)
 
 @users.post('/user-management/user')
-def user_management_create():
-    return {"status": status.HTTP_201_OK, "message": "Get User Data Object"}
+def user_management_create(session: SessionDep, request: UserBase):
+    return UserController.create(session, request)
 
 @users.put('/user-management/user/{id}')
-def user_management_put():
-    return {"status": status.HTTP_200_OK, "message": "Put User Data Object"}
+def user_management_put(session: SessionDep, id, request: UserBase):
+    return UserController.update(session, id, request)
 
 @users.patch('/user-management/user/{id}/name')
-def user_management_patch():
-    return {"status": status.HTTP_200_OK, "message": "Patch User Data Object Name Reference"}
+def user_management_patch(session: SessionDep, id, request: UserPatch):
+    return UserController.patch(session, id, request)
 
 @users.delete('/user-management/user/{id}/delete')
-def user_management_delete():
-    return {"status": status.HTTP_200_OK, "message": "Delete User Data Object"}
+def user_management_delete(session: SessionDep, id):
+    return UserController.destroy(session, id)

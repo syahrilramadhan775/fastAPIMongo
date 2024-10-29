@@ -1,18 +1,18 @@
 from dotenv import dotenv_values
 from sqlmodel import create_engine, Session
+from typing import Annotated
+from fastapi import Depends
 
 env = dotenv_values("../.env")
-connection= env["DB_CONNECTION"]
-host= env["DB_HOST"]
-user= env["DB_USER"]
-password= env["DB_PASSWORD"]
-port= env["DB_PORT"]
-dbname= env["DB_NAME"]
+class DatabaseSQL():
+    SQLALCHEMY_DABASE_URL= "postgresql://" + env["DB_USER"] + ":" + env["DB_PASSWORD"] + "@" + env["DB_HOST"] + "/" + env["DB_NAME"]
+    engine= create_engine(SQLALCHEMY_DABASE_URL, echo=True)
 
-SQLALCHEMY_DABASE_URL= "postgresql://" + user + ":" + password + "@" + host + "/" + dbname
+    def get_session():
+        with Session(DatabaseSQL.engine) as session:
+            yield session
 
-engine= create_engine(SQLALCHEMY_DABASE_URL, echo=True)
-
-def get_session():
-    with Session(engine) as session:
-        yield session
+    def session_depedency():
+        return Annotated[Session, Depends(DatabaseSQL.get_session)]
+    
+SessionDepedency= DatabaseSQL.session_depedency()

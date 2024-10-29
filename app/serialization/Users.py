@@ -1,8 +1,8 @@
 def serialization_user(data) -> dict:
     return {
-        "id": data['id'],
-        "name": data['name'],
-        "gender": data['gender'],
+        "id": data.id,
+        "name": data.name,
+        "gender": data.gender,
     }
 
 def serialization_users(data) -> list:
