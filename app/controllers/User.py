@@ -7,6 +7,11 @@ class UserController:
         return {"status": status.HTTP_200_OK, "data": serialization_users(UsersDML.collection(session))}
     
     def show(session: None, id: int):
+        users = UsersDML.first(session, id)
+        
+        if users == None:
+            return {"status": 404, "message": "User Not Found"}
+        
         return {"status": status.HTTP_200_OK, "data": serialization_user(UsersDML.first(session, id))}
     
     def create(session: None, request: None):
