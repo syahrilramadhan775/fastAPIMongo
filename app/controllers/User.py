@@ -14,6 +14,11 @@ class UserController():
         collection= await Users._collection_users()
         data = collection.find_one({"_id": ObjectId(id)})
         return { "status": status.HTTP_200_OK, "data": serializeUser(data) }
+    
+    async def get_user_search(q: str):
+        collection= await Users._collection_users()
+        data = collection.find({"username": {"$regex": f".*{q}.*"}})
+        return { "status": status.HTTP_200_OK, "data": serializeUsers(data) }
 
     async def createUser(body: userCreate):
         collection= await Users._collection_users()

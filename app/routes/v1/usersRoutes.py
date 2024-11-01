@@ -12,6 +12,10 @@ async def Users():
 async def Users(id):
     return await UserController.getUserDetail(id=id)
 
+@users_routes.get("/users/search")
+async def user_expression(q: str):
+    return await UserController.get_user_search(q)
+
 @users_routes.post("/user")
 async def User(body: userCreate):
     return await UserController.createUser(body=body)
